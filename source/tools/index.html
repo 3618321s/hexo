@@ -1,0 +1,548 @@
+---
+layout: false
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Theme Made By www.w3schools.com -->
+  <title>火車時刻表</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+    }
+
+    .wrap {
+      width: 100%;
+      height: 100vh;
+      font-family: 思源黑體, 微軟正黑體, 蘋方黑體, 華康麗黑體, Helvetica, Arial, sans-serif, serif;
+    }
+
+    .nav {
+      width: 100%;
+      background-color: #ffffff;
+    }
+
+    .nav .content {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav .content h1 {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ffffff;
+      padding: 80px 0;
+    }
+
+    .nav .content .south {
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .nav .content select {
+      width: 150px;
+      height: 48px;
+      background: #f1f0ea;
+      border: 3px solid #FFFFFF;
+      border-radius: 3px;
+      margin: 20px 0;
+      outline: none;
+      padding: 0 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .nav .content input {
+      width: 70px;
+      height: 70px;
+      font-size: 16px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #FFFFFF;
+      outline: none;
+      margin: 20px 0 30px;
+      cursor: pointer;
+    }
+
+    .nav .content input:hover {
+      background: #ffffff;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .container .trainList {
+      display: flex;
+      align-items: baseline;
+      flex-direction: column;
+      padding-top: 10px;
+      padding-left: 0px;
+    }
+
+    .container .trainList li {
+      width: auto;
+      /* height: 50px; */
+      font-size: 18px;
+      background-color: #ffffff;
+      border-radius: 7px;
+      color: #000000;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .container .trainList li p {
+      line-height: 50px;
+    }
+
+    .container .trainList li p:first-of-type {      
+      padding-right: 0px;
+    }
+
+    .container .trainList li .material-icons {
+      width: 120px;
+      padding: 13px 2px;
+    }
+
+    .container .trainList li .left {
+      display: flex;
+      padding: 13px 5px;
+    }
+
+    .container .trainList li .center {
+      display: flex;
+      padding: 13px 5px;
+    }
+
+    .container .trainList li .right {
+      display: flex;
+      padding: 13px 5px;
+      text-align: right;
+      /* padding-right: 18px; */
+    }
+
+    .container .trainList li .blue {
+      color: #4361ee;
+    }
+
+    .container .trainList li .red {
+      color: #ef476f;
+    }
+
+    .container .trainList li .orange {
+      color: #fca311;
+    }
+
+    .container .trainList li .gray {
+      color: #979dac;
+    }
+
+    #arrow2,
+    #arrow2:after {
+      width: 14px;
+      height: 14px;
+      border-top: 5px solid #000000;
+      border-right: 5px solid #000000;
+      transform: rotate(-225deg);
+      position: relative;
+    }
+
+    #arrow2:after {
+      content: " ";
+      transform: rotate(0);
+      position: absolute;
+      left: -10px;
+      top: 5px;
+    }
+  </style>
+</head>
+
+<body id="myPage" data-spy="scroll">
+
+  <!-- Container (Pricing Section) -->
+  <div id="Test" class="container-fluid text-center">
+    <div class="row">
+      <div class="col-sm-12">
+        <hr width="80%" color="#987cb9" size="1">
+        <h2>查詢</h2>
+        <hr width="80%" color="#987cb9" size="1">
+      </div>
+      <div class="col-sm-12">
+        <p>日期: <input type="text" id="datepicker"></p>
+      </div>
+      <div class="col-sm-12">
+        <div class="wrap">
+          <div class="nav">
+            <div class="content text-center">
+              <div class="departure">
+                <div class="select">
+                  <select name="縣市" class="city" id="city">
+                    <option value="" selected>請選擇縣市</option>
+                  </select>
+
+                  <select name="地區" class="area" id="area">
+                    <option value="" selected>請選擇車站</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ar" id="arrow2"></div>
+              <div class="arrive">
+                <div class="select">
+                  <select name="縣市" class="city2" id="city2">
+                    <option value="" selected>請選擇縣市</option>
+                  </select>
+                  <select name="地區" class="area2" id="area2">
+                    <option value="" selected>請選擇車站</option>
+                  </select>
+                </div>
+              </div>
+              <br />
+              <input type="button" value="查詢" id="btn" class="btn btn-default">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="container">
+          <ul class="trainList">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="container-fluid text-center">
+    <a href="/blog/" title="To Top">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+  </footer>
+  <!--jQuery datepicker 開始-->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="http://tony1966.xyz/test/jquery/jquery.ui.datepicker-zh-TW.js"></script>
+  <script>
+    $(function () {
+      $("#datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        defaultDate: "+0w",
+        changeMonth: true,
+        numberOfMonths: 1,
+        changeYear: true,
+        //showOn: "button",
+      });
+    });
+    $(document).ready(function () {
+      // Add smooth scrolling to all links in navbar + footer link
+      $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== "") {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+
+          // Store hash
+          var hash = this.hash;
+
+          // Using jQuery's animate() method to add smooth page scroll
+          // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 900, function () {
+
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        } // End if
+      });
+
+      $(window).scroll(function () {
+        $(".slideanim").each(function () {
+          var pos = $(this).offset().top;
+
+          var winTop = $(window).scrollTop();
+          if (pos < winTop + 600) {
+            $(this).addClass("slide");
+          }
+        });
+      });
+    })
+
+    var city = ["基隆市", "新北市", "臺北市", "桃園市", "新竹縣", "新竹市", "苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "台南市", "高雄市", "屏東縣", "臺東縣", "花蓮縣", "宜蘭縣"];
+    var sations = [["基隆", "三坑", "八堵", "七堵", "百福", "海科館", "暖暖"], ["五堵", "汐止", "汐科", "板橋", "浮洲", "樹林", "南樹林", "山佳", "鶯歌", "福隆", "貢寮", "雙溪", "牡丹", "三貂嶺", "大華", "十分", "望古", "嶺腳", "平溪", "菁桐", "猴硐", "瑞芳", "八斗子", "四腳亭"], ["南港", "松山", "臺北", "萬華"], ["桃園", "內壢", "中壢", "埔心", "楊梅", "富岡", "新富"], ["北湖", "湖口", "新豐", "竹北", "竹中", "六家", "上員", "榮華", "竹東", "橫山", "九讚頭", "合興", "富貴", "內灣"], ["北新竹", "千甲", "新莊", "新竹", "三姓橋", "香山"], ["崎頂", "竹南", "談文", "大山", "後龍", "龍港", "白沙屯", "新埔", "通霄", "苑裡", "造橋", "豐富", "苗栗", "南勢", "銅鑼", "三義"], ["日南", "大甲", "臺中港", "清水", "沙鹿", "龍井", "大肚", "追分", "泰安", "后里", "豐原", "栗林", "潭子", "頭家厝", "松竹", "太原", "精武", "臺中", "五權", "大慶", "烏日", "新烏日", "成功"], ["彰化", "花壇", "大村", "員林", "永靖", "社頭", "田中", "二水", "源泉"], ["濁水", "龍泉", "集集", "水里", "車埕"], ["林內", "石榴", "斗六", "斗南", "石龜"], ["大林", "民雄", "水上", "南靖"], ["嘉北", "嘉義"], ["後壁", "新營", "柳營", "林鳳營", "隆田", "拔林", "善化", "南科", "新市", "永康", "大橋", "臺南", "保安", "仁德", "中洲", "長榮大學", "沙崙"], ["大湖", "路竹", "岡山", "橋頭", "楠梓", "新左營", "左營", "內惟", "美術館", "鼓山", "三塊厝", "高雄", "民族", "科工館", "正義", "鳳山", "後庄", "九曲堂"], ["六塊厝", "屏東", "歸來", "麟洛", "西勢", "竹田", "潮州", "崁頂", "南州", "鎮安", "林邊", "佳冬", "東海", "枋寮", "加祿", "內獅", "枋山"], ["大武", "瀧溪", "金崙", "太麻里", "知本", "康樂", "臺東", "山里", "鹿野", "瑞源", "瑞和", "關山", "海端", "池上"], ["富里", "東竹", "東里", "玉里", "三民", "瑞穗", "富源", "大富", "光復", "萬榮", "鳳林", "南平", "新榮新光", "豐田", "壽豐", "平和", "志學", "吉安", "花蓮", "北埔", "景美", "新城", "崇德", "和仁", "和平"], ["漢本", "武塔", "南澳", "東澳", "永樂", "蘇澳", "蘇澳新", "新馬", "冬山", "羅東", "中里", "二結", "宜蘭", "四城", "礁溪", "頂埔", "頭城", "外澳", "龜山", "大溪", "大里", "石城"]];
+
+    var cityBtn = document.querySelector(".city");
+    var areaBtn = document.getElementById("area");
+    for (let i = 0; i < city.length; i++) {
+      var option = document.createElement("option");
+      option.value = city[i];
+      option.dataset.num = i;
+      option.textContent = city[i];
+      cityBtn.appendChild(option);
+    }
+    cityBtn.addEventListener("change", function (e) {
+      areaBtn.innerHTML = '<option value="" selected>請選擇車站</option>';
+      var option = document.querySelectorAll(".city option");
+      for (let i = 0; i < option.length; i++) {
+        if (option[i].selected) {
+          var num = option[i].dataset.num;
+          var citySation = sations[num];
+          for (let i = 0; i < citySation.length; i++) {
+            var option = document.createElement("option");
+            option.value = citySation[i];
+            option.textContent = citySation[i];
+            areaBtn.appendChild(option);
+          }
+        }
+      }
+    }, false);
+
+    var cityBtn2 = document.querySelector(".city2");
+    var areaBtn2 = document.getElementById("area2");
+    for (let i = 0; i < city.length; i++) {
+      var option = document.createElement("option");
+      option.value = city[i];
+      option.dataset.num = i;
+      option.textContent = city[i];
+      cityBtn2.appendChild(option);
+    }
+    cityBtn2.addEventListener("change", function (e) {
+      areaBtn2.innerHTML = '<option value="" selected>請選擇車站</option>';
+      var option = document.querySelectorAll(".city2 option");
+      for (let i = 0; i < option.length; i++) {
+        if (option[i].selected) {
+          var num = option[i].dataset.num;
+          var citySation = sations[num];
+          for (let i = 0; i < citySation.length; i++) {
+            var option = document.createElement("option");
+            option.value = citySation[i];
+            option.textContent = citySation[i];
+            areaBtn2.appendChild(option);
+          }
+        }
+      }
+    }, false);
+
+    document.getElementById("datepicker").value = getTodayDate();
+    document.getElementById("btn").addEventListener("click", function () {
+      var train_date = document.getElementById("datepicker").value;
+      var departure;
+      var option = document.querySelectorAll(".area option");
+      for (let i = 0; i < option.length; i++) {
+        if (option[i].selected) {
+          departure = option[i].value;
+        }
+      }
+      var arrive;
+      var option2 = document.querySelectorAll(".area2 option");
+      for (let i = 0; i < option2.length; i++) {
+        if (option2[i].selected) {
+          arrive = option2[i].value;
+        }
+      }
+      search(train_date, departure, arrive);
+      document.querySelector(".wrap").style.height = "auto";
+    }, false);
+
+    function search(train_date, departure, arrive) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('get', 'https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/TrainDate/' + train_date + '?$format=JSON', true);
+      xhr.send(null);
+      xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText).TrainTimetables;
+        //alert(data);
+        var dataLen = data.length;
+        //alert(dataLen);
+        //每一筆資料代表一班車
+
+        document.querySelector(".trainList").innerHTML = "";
+        var myTrain = [];
+        for (var a = 0; a < dataLen; a++) {
+          var willStop = []; //本班車會到的站
+          var list = []; //用一個陣列儲存物件(物件為{station: "新竹", time: "11:37"}.......)
+          var len = data[a].StopTimes.length;
+          for (let i = 0; i < len; i++) {
+            var train = {};
+            willStop.push(data[a].StopTimes[i].StationName.Zh_tw);
+            train.station = data[a].StopTimes[i].StationName.Zh_tw;
+            train.dtime = data[a].StopTimes[i].DepartureTime;
+            train.atime = data[a].StopTimes[i].ArrivalTime;
+            list.push(train);
+          }
+
+          var thisTrain = {}; //紀錄車種車號起訖時間等資料
+
+          if (willStop.includes(departure) && willStop.includes(arrive)) {
+
+            //抵達ab站時個給予一個值
+            var stationNum1;
+            var stationNum2;
+            for (let i = 0; i < willStop.length; i++) {
+              if (willStop[i] == departure) {
+                stationNum1 = i;
+              } else if (willStop[i] == arrive) {
+                stationNum2 = i;
+              } else { }
+            }
+
+            //當b>a時則符合使用者起訖站需求
+            if (stationNum2 > stationNum1) {
+              //寫入起訖時間
+              for (let i = 0; i < list.length; i++) {
+                if (list[i].station == departure) {
+                  thisTrain.time1 = list[i].dtime;
+                } else if (list[i].station == arrive) {
+                  thisTrain.time2 = list[i].atime;
+                } else { }
+              }
+              //處理火車車種
+              var name = data[a].TrainInfo.TrainTypeName.Zh_tw;
+              if (name.includes("自強")) {
+                thisTrain.TrainTypeName = "自強";
+                thisTrain.color = "orange"
+              } else if (name.includes("區間快")) {
+                thisTrain.TrainTypeName = "區間快";
+                thisTrain.color = "gray";
+              } else if (name.includes("莒光")) {
+                thisTrain.TrainTypeName = "莒光";
+                thisTrain.color = "red"
+              } else if (name.includes("普悠瑪")) {
+                thisTrain.TrainTypeName = "普悠瑪";
+                thisTrain.color = "red";
+              } else if (name.includes("太魯閣")) {
+                thisTrain.TrainTypeName = "太魯閣";
+                thisTrain.color = "red";
+              } else if (name.includes("復興")) {
+                thisTrain.TrainTypeName = "復興";
+                thisTrain.color = "gray";
+              } else {
+                thisTrain.TrainTypeName = name;
+                thisTrain.color = "black";
+              }
+              //處理車號
+              thisTrain.TrainNo = data[a].TrainInfo.TrainNo;
+
+              //處理時間差
+              thisTrain.difftime = difftime(thisTrain.time1, thisTrain.time2);
+
+              //處理備註                   
+              var train_status = data[a].TrainInfo.Note;
+              if (train_status.includes("*停駛*")) {
+                thisTrain.status = "1";
+                thisTrain.color = "red";
+              } else {
+                thisTrain.Note = "";
+                thisTrain.status = "0";
+              }
+
+            }
+          }
+          //當得到的不是空物件的時候將資料寫入物件thisTrain
+          if (JSON.stringify(thisTrain) != "{}") {
+            myTrain.push(thisTrain);
+          }
+          else {
+
+          }
+        }
+        //按時間排列班次
+        myTrain.sort((a, b) => a.time1.localeCompare(b.time1));
+        //取得現在時間
+        var now = new Date();
+        var thisTime = now.getHours() + ":" + now.getMinutes();
+        var thisnum = "0";
+
+        //取得ul節點
+        var trainList = document.querySelector(".trainList");
+        //跑迴圈將li新增進去
+        myTrainLen = myTrain.length;
+        for (let i = 0; i < myTrainLen; i++) {
+          var li = document.createElement("li");
+          var no_id;
+          if (i <= 8) {
+            no_id = "0" + (i + 1);
+          } else {
+            no_id = i + 1;
+          }
+          if (myTrain[i].status == thisnum) {
+            //if(myTrain[i].time1 > thisTime){    
+              li.innerHTML = '<div class="left">' + '<p>' + no_id + '</p><span class="material-icons '
+              + myTrain[i].color + '">'
+              + myTrain[i].TrainTypeName + '  ' + myTrain[i].TrainNo + '</span></div><div class="right"><p>'
+              + myTrain[i].time1 + '</p>' + '<p><span class="glyphicon glyphicon-arrow-right"> </span></p><p>' 
+              + myTrain[i].time2 + '</p></div><div class="right"><p>  '+ myTrain[i].difftime +'</p></div>';      
+            // li.innerHTML = '<div class="left">' + '<p>' + no_id + '</p><span class="material-icons '
+            //   + myTrain[i].color + '">'
+            //   + myTrain[i].TrainTypeName + '  ' + myTrain[i].TrainNo + '</span></div><div class="right"><p>'
+            //   + myTrain[i].time1 + '</p>' + '<p><span class="glyphicon glyphicon-arrow-right"> </span></p><p>' 
+            //   + myTrain[i].time2 + '</p></div><div class="right"><p>  '+ myTrain[i].difftime +'</p></div>';
+            trainList.appendChild(li);
+            //}
+          }
+
+        }
+      }
+    }
+
+    function getTodayDate() {
+      var fullDate = new Date();
+      var yyyy = fullDate.getFullYear();
+      var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+      var dd = fullDate.getDate() < 10 ? ("0" + fullDate.getDate()) : fullDate.getDate();
+      var today = yyyy + "-" + MM + "-" + dd;
+      return today;
+    }
+
+    function difftime(time1, time2) {
+      _startTime = time1.split(":");
+      _endTime = time2.split(":");
+      var startDate = new Date(0, 0, 0, _startTime[0], _startTime[1], 0);
+      var endDate = new Date(0, 0, 0, _endTime[0], _endTime[1], 0);
+      if(_endTime[0] == "00"){
+        var endDate = new Date(0, 0, 0, 24, _endTime[1], 0);
+        var diff = startDate.getTime() - endDate.getTime();
+      }
+      else{
+        var diff = endDate.getTime() - startDate.getTime();
+      }      
+      var diff = endDate.getTime() - startDate.getTime();
+      var hours = Math.floor(diff / 1000 / 60 / 60);
+      diff -= hours * 1000 * 60 * 60;
+      var minutes = Math.floor(diff / 1000 / 60);
+      var resultTime;
+      if (hours == 0) {
+        resultTime = minutes + "分";
+      }
+      else if (hours >= 1) {
+        resultTime = hours + "小時" + minutes + "分";
+      }
+      //alert(resultTime);
+      return resultTime;
+    }
+
+  </script>
+</body>
+
+</html>
+
